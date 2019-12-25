@@ -1,0 +1,7 @@
+.api-response {
+    height: 500px;
+    width: 700px;
+    overflow: scroll;
+    margin: auto;
+    background: #e8e1e1;
+}

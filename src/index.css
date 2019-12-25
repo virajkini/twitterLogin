@@ -1,0 +1,33 @@
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('./resources/fonts/GothamRounded-Bold.otf') format('openType');
+  font-style: normal;
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('./resources/fonts/GothamRounded-Medium.otf') format('openType');
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('./resources/fonts/GothamRounded-Light.otf') format('openType');
+  font-style: normal;
+  font-weight: 300;
+}
+
+body {
+  margin: 0;
+  font-family: 'Gotham', 'sans-serif';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
