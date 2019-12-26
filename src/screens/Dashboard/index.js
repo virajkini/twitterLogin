@@ -4,8 +4,10 @@ import axios from 'axios';
 import { StoreContext } from '../../appContextStore';
 import { getAuthHeader } from '../../metadata/utils/getAuthHeader';
 
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card,Image, Container, Row } from 'react-bootstrap';
+import { TweetBody, Handle, Name, Tweet, TweetBox} from './components/tweet.js'
 import './styles.css';
+
 
 class Dashboard extends React.Component {
     constructor(props){
@@ -32,15 +34,16 @@ class Dashboard extends React.Component {
         );
 
         // axios.get(apiUrl)
-        //     .then(function (response) {
+        //     .then((response) => {
+        //         console.log("success")
         //         console.log(response);
-        //         // this.setState({
-        //         //     data: response
-        //         // })
+        //         this.setState({
+        //             data: response
+        //         })
         //     })
         //     .catch(function (error) {
+        //         console.log("Error")
         //         console.log(error);
-        //         res = error;
         //     });
 
         this.setState({
@@ -54,7 +57,9 @@ class Dashboard extends React.Component {
           <div>
             {props.data.map((item) => (
                 <Card style={{ width: '100%' }}>
-                    <Card.Img variant="top" src={item.user.profile_image_url_https}/>
+                    {/* <Card.Img variant="top" src={item.user.profile_image_url_https}/> */}
+                    {/* <Image src={item.user.profile_image_url_https} roundedCircle /> */}
+                    <img src={item.user.profile_image_url_https} alt="Logo" className="picture"></img>
                     <Card.Body>
                         <Card.Title>{item.user.screen_name}</Card.Title>
                         <Card.Text>
@@ -83,6 +88,24 @@ class Dashboard extends React.Component {
                                 this.renderItem(this.state.data)
                             }
                         </p>
+                            <div className="main-body">
+                                {this.state.data.data.map((tweet) => {
+                                return(
+                                    <div className="tweet-body">
+                                        <div className="inner-body">
+                                            <img src={tweet.user.profile_image_url_https} alt="Logo" className="picture"></img>
+                                            <div >
+                                            <div className="inner-body">
+                                                <div className="name">{tweet.user.name}</div>
+                                                <div className="handle">{tweet.user.screen_name}</div>
+                                            </div>
+                                            <Tweet tweet_text={tweet.text}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                                })}
+                            </div>
                     </>
                 }
             </div>
