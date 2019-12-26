@@ -38,7 +38,7 @@ function App() {
               }
             }
           </StoreContext.Consumer>
-        
+
       </Router>
     </div>
   );
