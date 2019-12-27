@@ -19,6 +19,8 @@ export default class SignIn extends React.Component {
             }
             this.context.updateStore('authData', authData)
             this.context.updateStore('isAuthenticated', true)
+
+            localStorage.setItem('authData', JSON.stringify(authData));
         }
     };
 

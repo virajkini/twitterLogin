@@ -1,7 +1,25 @@
 .api-response {
-    height: 500px;
+    height: 80vh;
     width: 700px;
     overflow: scroll;
     margin: auto;
     /* background: #e8e1e1; */
+}
+
+.api-response .card {
+    border: 1px solid #fffefe;
+    padding: 16px;
+    background: #f1eeee;
+    margin: 16px 0;
+    width: auto !important;
+}
+
+.tw-buttons {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.tw-buttons .icon {
+    cursor: pointer;
 }
