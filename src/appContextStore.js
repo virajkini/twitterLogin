@@ -1,6 +1,8 @@
 import React from 'react';
 
-const authData = localStorage.getItem('authData');
+const token = JSON.parse(localStorage.getItem('authData'));
+const authData = token || '';
+const isAuthenticated = token ? true : false;
 
 export const StoreContext = React.createContext('default');
 
@@ -8,7 +10,7 @@ class Store extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAuthenticated:false,
+            isAuthenticated:isAuthenticated,
             authData: authData,
         }
     }
