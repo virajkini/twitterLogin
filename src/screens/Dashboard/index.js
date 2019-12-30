@@ -6,6 +6,8 @@ import { getAuthHeader } from '../../metadata/utils/getAuthHeader';
 
 import { Button, Card,Image, Container, Row } from 'react-bootstrap';
 import { TweetBody, Handle, Name, Tweet, TweetBox} from './components/tweet.js';
+import Comment from '../../resources/images/comment.svg'; 
+
 import CheckboxModal from './components/checkboxModal';
 import './styles.css';
 
@@ -130,67 +132,6 @@ class Dashboard extends React.Component {
         }
     }
 
-
-    renderItem = props => {
-        return (
-          <div>
-            {props.map((item, key) => (
-                <Card style={{ width: '100%' }} key = {key}>
-                    {/* <Card.Img variant="top" src={item.user.profile_image_url_https}/> */}
-                    <img src={item.user.profile_image_url_https} className="picture"></img>
-                    <Card.Body>
-                            <Card.Title>
-                                <a href={"https://twitter.com/" + (item.user.screen_name)} target="_blank">
-                                    {item.user.name}
-                                </a>
-                            </Card.Title>
-                        <Card.Text>
-                            {item.text}
-                        </Card.Text>
-                        <div className='tw-buttons'>
-                            <div>
-                                <i className='material-icons icon'>comment</i>
-                            </div>
-                            <div>
-                                <i
-                                  className='material-icons icon'
-                                  onClick = {()=> {
-                                        const type = item.retweeted ? 'unretweet' : 'retweet'
-                                        this.retweetAction(item.id_str, key, type);
-                                   }}
-                                >
-                                    {
-                                        item.retweeted ? 'repeat_one' : 'repeated'
-                                    }
-                                </i>
-                                {item.retweet_count}
-                            </div>
-                            <div>
-                                <i
-                                    className={"material-icons icon " + (item.favorited? 'red': '')}
-                                    onClick = {()=> {
-                                        const type = item.favorited ? 'destroy' : 'create'
-                                        this.favoritesAction(item.id_str, key, type);
-                                   }}
-                                >
-                                    {
-                                        item.favorited? 'favorite' : 'favorite_border'
-                                    }
-                                </i>
-                                    {item.favorite_count}
-                            </div>
-                            <div>
-                                <i className='material-icons icon'>file_upload</i>
-                            </div>
-                        </div>
-                        <CheckboxModal tweetId = {item.id_str}/>
-                    </Card.Body>
-                </Card>
-            ))}
-          </div>
-        );
-      };
-
     render() {
         return(
             <div>
@@ -201,23 +142,52 @@ class Dashboard extends React.Component {
                     this.state.data &&
                     <>
                         <h4>https://api.twitter.com/1.1/statuses/home_timeline.json</h4>
-                        <p className='api-response'>
-                            {
-                                this.renderItem(this.state.data)
-                            }
-                        </p>
                             <div className="main-body">
-                                {this.state.data.map((tweet) => {
+                                {this.state.data.map((tweet, key) => {
                                 return(
                                     <div className="tweet-body">
                                         <div className="inner-body">
                                             <img src={tweet.user.profile_image_url_https} alt="Logo" className="picture"></img>
-                                            <div >
-                                            <div className="inner-body">
-                                                <div className="name">{tweet.user.name}</div>
-                                                <div className="handle">{tweet.user.screen_name}</div>
-                                            </div>
-                                            <Tweet tweet_text={tweet.text}/>
+                                            <div>
+                                                <div className="inner-body">
+                                                    <div className="name">{tweet.user.name}</div>
+                                                    <div className="handle">{`@ ${tweet.user.screen_name}`}</div>
+                                                </div>
+                                                <Tweet tweet_text={tweet.text}/>
+                                                <div className='tw-buttons'>
+                                                    <div><img className='img' src={Comment} alt='comment' /></div>
+                                                    <div style= {{display: 'flex', alignItems: 'center'}}>
+                                                    <i
+                                                        className='material-icons icon'
+                                                        onClick = {()=> {
+                                                                const type = tweet.retweeted ? 'unretweet' : 'retweet'
+                                                                this.retweetAction(tweet.id_str, key, type);
+                                                        }}
+                                                    >
+                                                        {
+                                                            tweet.retweeted ? 'repeat_one' : 'repeated'
+                                                        }
+                                                    </i>
+                                                    <p className='count'>{tweet.retweet_count}</p>
+                                                    </div>
+                                                    <div style= {{display: 'flex', alignItems: 'center'}}>
+                                                    
+                                                        <i
+                                                            className={"material-icons icon " + (tweet.favorited? 'red': '')}
+                                                            onClick = {()=> {
+                                                                const type = tweet.favorited ? 'destroy' : 'create'
+                                                                this.favoritesAction(tweet.id_str, key, type);
+                                                        }}
+                                                        >
+                                                            {
+                                                                tweet.favorited? 'favorite' : 'favorite_border'
+                                                            }
+                                                        </i>
+                                                        
+                                                        <p className='count'>{tweet.favorite_count}</p>
+                                                    </div>
+                                                    <CheckboxModal tweetId = {tweet.id_str}/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -2,6 +2,7 @@ import React, { userContext, useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Button, Form, Modal} from 'react-bootstrap';
 
+import Send from '../../../resources/images/send.svg'; 
 import { StoreContext } from '../../../appContextStore';
 
 const CheckboxModal = (props) => {
@@ -47,13 +48,13 @@ const CheckboxModal = (props) => {
         try {
 
             if (pk === null) {
-                const res = await axios.post('https://tfeed.herokuapp.com/api/v1/tweetoptions/', payload);
+                await axios.post('https://tfeed.herokuapp.com/api/v1/tweetoptions/', payload);
             } else {
                 payload = {
                     ...payload,
                     pk,
                 }
-                const res = await axios.patch(`https://tfeed.herokuapp.com/api/v1/tweetoptions/${pk}/`, payload);
+                await axios.patch(`https://tfeed.herokuapp.com/api/v1/tweetoptions/${pk}/`, payload);
             }
             
 
@@ -61,16 +62,15 @@ const CheckboxModal = (props) => {
 
         } catch (err) {
             alert('Something went wrong')
-
             return '';
         }
     }
 
     return(
         <>
-            <Button variant="primary" onClick={handleShow}>
-                Select Options
-            </Button>
+            <div onClick={handleShow}>   
+                <img className='img' src={Send} alt='send'/>
+            </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                 <Modal.Title>Select an option</Modal.Title>

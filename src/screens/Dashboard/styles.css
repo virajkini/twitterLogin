@@ -7,11 +7,8 @@
 }
 
 .main-body {
-    display: flex;
-    flex-direction: column;
-    /* background-color: #11171d; */
-    min-height: 80rem;
-  }
+    
+ }
 
   .body {
     display: flex;
@@ -24,13 +21,15 @@
   }
 
   .tweet-body {
+    padding: 16px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 566px;
+    width: 50%;
+    margin: auto;
     height: 170px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
     background-color: #15202a;
-    margin-left: 25rem;
     margin-bottom: 0.1rem;
   }
 
@@ -52,12 +51,10 @@
     flex-direction: row;
     margin-left: 15px;
     margin-top: 19px;
-    min-width: 85px;
-    height: 17px;
     font-family: HelveticaNeue;
-    font-size: 14px;
-    font-weight: 500;
-    font-style: normal;
+    font-size: 18px;
+    font-weight: 800;
+    font-style: bolder;
     font-stretch: normal;
     line-height: normal;
     letter-spacing: -0.6px;
@@ -67,14 +64,11 @@
   .handle {
     margin-left: 10px;
     margin-top: 19px;
-    min-width: 128px;
-    height: 16px;
     font-family: HelveticaNeue;
     font-size: 14px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
-    line-height: normal;
     letter-spacing: -0.6px;
     color: #75797d;
   }
@@ -82,16 +76,15 @@
   .tweet {
     margin-left: 15px;
     margin-top: 7px;
-    width: 445px;
-    height: 88px;
     font-family: HelveticaNeue;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 600;
     font-style: normal;
     font-stretch: normal;
     line-height: normal;
     letter-spacing: -0.6px;
     color: #ffffff;
+    text-align: left;
   }
 .api-response .card {
     border: 1px solid #fffefe;
@@ -102,13 +95,31 @@
 }
 
 .tw-buttons {
-
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
     display: flex;
     justify-content: space-between;
 }
 
+.tw-buttons .img {
+    cursor: pointer;
+    color: rgb(136, 153, 166);
+    width: 18px;
+}
+
 .tw-buttons .icon {
     cursor: pointer;
+    color: rgb(136, 153, 166);
+    font-size: 18px;
+    max-width: 12px;
+} 
+
+.tw-buttons .count {
+    color: rgb(136, 153, 166);
+    margin: 0;
+    margin-left: 8px;
 }
 
 .material-icons.red {
