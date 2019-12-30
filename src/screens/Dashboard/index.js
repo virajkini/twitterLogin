@@ -5,7 +5,8 @@ import { StoreContext } from '../../appContextStore';
 import { getAuthHeader } from '../../metadata/utils/getAuthHeader';
 
 import { Button, Card,Image, Container, Row } from 'react-bootstrap';
-import { TweetBody, Handle, Name, Tweet, TweetBox} from './components/tweet.js'
+import { TweetBody, Handle, Name, Tweet, TweetBox} from './components/tweet.js';
+import CheckboxModal from './components/checkboxModal';
 import './styles.css';
 
 
@@ -40,26 +41,38 @@ class Dashboard extends React.Component {
             }
         );
 
-        // axios.get(apiUrl)
-        //     .then((response) => {
-        //         console.log("success")
-        //         console.log(response);
-        //         this.setState({
-        //             data: response
-        //         })
-        //     })
-        //     .catch(function (error) {
-        //         console.log("Error")
-        //         console.log(error);
-        //     });
-
         this.setState({
             data: res.data
         })
 
     }
 
+    fetchTweet = async (id) => {
 
+        const apiUrl = `https://api.twitter.com/1.1/statuses/show.json?id=${id}`;
+        const requestData = {
+            url: apiUrl,
+            method: 'GET',
+        }
+
+        const token = this.context.authData.token;
+        try {
+            const res = await axios.get(
+                `https://cors-anywhere.herokuapp.com/${apiUrl}`,
+                {
+                    headers: getAuthHeader(requestData, token)
+                }
+            );
+
+            return (res.data);
+
+        } catch (err) {
+            alert('Something went wrong')
+
+            return '';
+        }
+
+    }
     retweetAction = async(id, key, type) => {
         const apiUrl = `https://api.twitter.com/1.1/statuses/${type}/${id}.json`;
         const requestData = {
@@ -76,10 +89,11 @@ class Dashboard extends React.Component {
                 }
             );
 
+            const updatedTweet = await this.fetchTweet(id);
 
             const tempData = [...this.state.data];
 
-            tempData[key]['retweet_count'] = res.data['retweet_count'];
+            tempData[key] = updatedTweet;
 
             this.setState({data: tempData})
         } catch (err) {
@@ -109,8 +123,6 @@ class Dashboard extends React.Component {
             const tempData = [...this.state.data];
 
             tempData[key] = res.data;
-            console.log("11111111111111111111111111111")
-            console.log(tempData)
 
             this.setState({data: tempData})
         } catch (err) {
@@ -136,7 +148,7 @@ class Dashboard extends React.Component {
                             {item.text}
                         </Card.Text>
                         <div className='tw-buttons'>
-                        <div>
+                            <div>
                                 <i className='material-icons icon'>comment</i>
                             </div>
                             <div>
@@ -171,6 +183,7 @@ class Dashboard extends React.Component {
                                 <i className='material-icons icon'>file_upload</i>
                             </div>
                         </div>
+                        <CheckboxModal tweetId = {item.id_str}/>
                     </Card.Body>
                 </Card>
             ))}

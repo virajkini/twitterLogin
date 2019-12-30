@@ -11,16 +11,19 @@ export default class SignIn extends React.Component {
     authHandler = async (err, data) => {
         if (!err) {
 
+            
             const authData = {
                token : {
                 key: data.oauth_token,
                 secret: data.oauth_token_secret
                } 
             }
-            this.context.updateStore('authData', authData)
+            this.context.updateStore('authData', authData);
+            this.context.updateStore('user_id', data.user_id);
             this.context.updateStore('isAuthenticated', true)
 
             localStorage.setItem('authData', JSON.stringify(authData));
+            localStorage.setItem('user_id', JSON.stringify(data.user_id));
         }
     };
 
