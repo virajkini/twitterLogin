@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 
 import { StoreContext } from '../../appContextStore';
-import { getAuthHeader } from '../../metadata/utils/getAuthHeader';
 
 import { Button, Card,Image, Container, Row } from 'react-bootstrap';
 import { TweetBody, Handle, Name, Tweet, TweetBox} from './components/tweet.js';
@@ -27,22 +26,13 @@ class Dashboard extends React.Component {
     }
 
     fetchTimelineData = async() => {
-        const apiUrl = 'https://api.twitter.com/1.1/statuses/home_timeline.json';
-        // const apiUrl = 'http://127.0.0.1:8000/api/v1/user-timeline/?format=json';
-        const requestData = {
-            url: apiUrl,
-            method: 'GET',
-        }
 
-        const token = this.context.authData.token;
-        const res = await axios.get(
-            `https://cors-anywhere.herokuapp.com/${apiUrl}`,
-            {
-                headers: getAuthHeader(requestData, token),
-                exclude_replies: false
+        const res = await axios.get('https://tfeed.herokuapp.com/api/v1/user-timeline/',{
+            headers: {
+                'Authorization': `Token ${this.context.token}`,
             }
-        );
-
+        });
+    
         this.setState({
             data: res.data
         })
@@ -51,85 +41,69 @@ class Dashboard extends React.Component {
 
     fetchTweet = async (id) => {
 
-        const apiUrl = `https://api.twitter.com/1.1/statuses/show.json?id=${id}`;
-        const requestData = {
-            url: apiUrl,
-            method: 'GET',
-        }
+        // try {
+        //     const res = await axios.get(
+        //         `https://cors-anywhere.herokuapp.com/${apiUrl}`,{
+        //             headers: {
+        //                 'Authorization': `Token ${this.context.token}`,
+        //             }
+        //         });
 
-        const token = this.context.authData.token;
-        try {
-            const res = await axios.get(
-                `https://cors-anywhere.herokuapp.com/${apiUrl}`,
-                {
-                    headers: getAuthHeader(requestData, token)
-                }
-            );
+        //     return (res.data);
 
-            return (res.data);
+        // } catch (err) {
+        //     alert('Something went wrong')
 
-        } catch (err) {
-            alert('Something went wrong')
-
-            return '';
-        }
+        //     return '';
+        // }
 
     }
     retweetAction = async(id, key, type) => {
-        const apiUrl = `https://api.twitter.com/1.1/statuses/${type}/${id}.json`;
-        const requestData = {
-            url: apiUrl,
-            method: 'POST',
-        }
+        
+        // try {
+        //     const res = await axios.post(
+        //         `https://cors-anywhere.herokuapp.com/${apiUrl}`,{},
+        //         {
+        //             headers: {
+        //                 'Authorization': `Token ${this.context.token}`,
+        //             }
+        //         }
+        //     );
 
-        const token = this.context.authData.token;
-        try {
-            const res = await axios.post(
-                `https://cors-anywhere.herokuapp.com/${apiUrl}`,{},
-                {
-                    headers: getAuthHeader(requestData, token)
-                }
-            );
+        //     const updatedTweet = await this.fetchTweet(id);
 
-            const updatedTweet = await this.fetchTweet(id);
+        //     const tempData = [...this.state.data];
 
-            const tempData = [...this.state.data];
+        //     tempData[key] = updatedTweet;
 
-            tempData[key] = updatedTweet;
-
-            this.setState({data: tempData})
-        } catch (err) {
-            alert('Something went wrong')
-        }
+        //     this.setState({data: tempData})
+        // } catch (err) {
+        //     alert('Something went wrong')
+        // }
     }
 
 
     favoritesAction = async(id, key, type) => {
 
-        const apiUrl = `https://api.twitter.com/1.1/favorites/${type}.json?id=${id}`;
-        const requestData = {
-            url: apiUrl,
-            method: 'POST',
-        }
-
-        const token = this.context.authData.token;
-        try {
-            const res = await axios.post(
-                `https://cors-anywhere.herokuapp.com/${apiUrl}`,{},
-                {
-                    headers: getAuthHeader(requestData, token)
-                }
-            );
+        // try {
+        //     const res = await axios.post(
+        //         `https://cors-anywhere.herokuapp.com/${apiUrl}`,{},
+        //         {
+        //             headers: {
+        //                 'Authorization': `Token ${this.context.token}`,
+        //             }
+        //         }
+        //     );
 
 
-            const tempData = [...this.state.data];
+        //     const tempData = [...this.state.data];
 
-            tempData[key] = res.data;
+        //     tempData[key] = res.data;
 
-            this.setState({data: tempData})
-        } catch (err) {
-            alert('Something went wrong')
-        }
+        //     this.setState({data: tempData})
+        // } catch (err) {
+        //     alert('Something went wrong')
+        // }
     }
 
     render() {

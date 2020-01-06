@@ -1,9 +1,13 @@
 import React from 'react';
 
-const token = JSON.parse(localStorage.getItem('authData'));
-const authData = token || '';
-const isAuthenticated = token ? true : false;
-const user_id = JSON.parse(localStorage.getItem('user_id')) || '';
+import cookieParser from './metadata/utils/cookieParser';
+
+const cookieObj = cookieParser();
+
+const isAuthenticated = cookieObj.hasOwnProperty('Authorization') && cookieObj.Authorization.length > 0;
+const userEmail = cookieObj.hasOwnProperty('user')? cookieObj.user : '';
+const token = cookieObj.hasOwnProperty('Authorization') ? cookieObj.Authorization : '';
+
 
 export const StoreContext = React.createContext('default');
 
@@ -12,8 +16,8 @@ class Store extends React.Component {
         super(props);
         this.state = {
             isAuthenticated:isAuthenticated,
-            authData: authData,
-            user_id: user_id
+            email: userEmail,
+            token: token,
         }
     }
 
