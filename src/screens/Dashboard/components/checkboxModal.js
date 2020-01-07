@@ -2,8 +2,9 @@ import React, { userContext, useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Button, Form, Modal} from 'react-bootstrap';
 
-import Send from '../../../resources/images/send.svg'; 
+import Send from '../../../resources/images/send.svg';
 import { StoreContext } from '../../../appContextStore';
+import apiBaseUrl  from '../../../metadata/constants';
 
 const CheckboxModal = (props) => {
 
@@ -24,12 +25,12 @@ const CheckboxModal = (props) => {
     const fetchUserOptions = async() => {
 
         try {
-            const res = await axios.get(`https://tfeed.herokuapp.com/api/v1/tweetoptions/?user_id=${context.user_id}&tweet_id=${props.tweetId}`);
+            const res = await axios.get( apiBaseUrl + `/api/v1/tweetoptions/?user_id=${context.user_id}&tweet_id=${props.tweetId}`);
             if (res.data.length && res.data[0].option && res.data[0].pk ) {
                 setOption(res.data[0].option);
                 setPk(res.data[0].pk);
             }
-            
+
         } catch (err) {
             console.log(err)
             alert('Something went wrong')
@@ -48,15 +49,15 @@ const CheckboxModal = (props) => {
         try {
 
             if (pk === null) {
-                await axios.post('https://tfeed.herokuapp.com/api/v1/tweetoptions/', payload);
+                await axios.post(apiBaseUrl + '/api/v1/tweetoptions/', payload);
             } else {
                 payload = {
                     ...payload,
                     pk,
                 }
-                await axios.patch(`https://tfeed.herokuapp.com/api/v1/tweetoptions/${pk}/`, payload);
+                await axios.patch(apiBaseUrl + `/api/v1/tweetoptions/${pk}/`, payload);
             }
-            
+
 
             setShow(false);
 
@@ -68,7 +69,7 @@ const CheckboxModal = (props) => {
 
     return(
         <>
-            <div onClick={handleShow}>   
+            <div onClick={handleShow}>
                 <img className='img' src={Send} alt='send'/>
             </div>
             <Modal show={show} onHide={handleClose}>

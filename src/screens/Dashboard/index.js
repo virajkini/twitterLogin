@@ -5,7 +5,8 @@ import { StoreContext } from '../../appContextStore';
 
 import { Button, Card,Image, Container, Row } from 'react-bootstrap';
 import { TweetBody, Handle, Name, Tweet, TweetBox} from './components/tweet.js';
-import Comment from '../../resources/images/comment.svg'; 
+import Comment from '../../resources/images/comment.svg';
+import apiBaseUrl from '../../metadata/constants';
 
 import CheckboxModal from './components/checkboxModal';
 import './styles.css';
@@ -22,17 +23,17 @@ class Dashboard extends React.Component {
     componentDidMount = async () => {
 
         this.fetchTimelineData()
-        //setInterval(()=>{ this.fetchTimelineData() }, 80 * 1000 )
+        setInterval(()=>{ this.fetchTimelineData() }, 80 * 1000 )
     }
 
     fetchTimelineData = async() => {
-
-        const res = await axios.get('https://tfeed.herokuapp.com/api/v1/user-timeline/',{
+        const apiUrl = apiBaseUrl + '/api/v1/user-timeline/';
+        const res = await axios.get(apiUrl ,{
             headers: {
                 'Authorization': `Token ${this.context.token}`,
             }
         });
-    
+
         this.setState({
             data: res.data
         })
@@ -59,7 +60,7 @@ class Dashboard extends React.Component {
 
     }
     retweetAction = async(id, key, type) => {
-        
+
         // try {
         //     const res = await axios.post(
         //         `https://cors-anywhere.herokuapp.com/${apiUrl}`,{},
@@ -145,7 +146,7 @@ class Dashboard extends React.Component {
                                                     <p className='count'>{tweet.retweet_count}</p>
                                                     </div>
                                                     <div style= {{display: 'flex', alignItems: 'center'}}>
-                                                    
+
                                                         <i
                                                             className={"material-icons icon " + (tweet.favorited? 'red': '')}
                                                             onClick = {()=> {
@@ -157,7 +158,7 @@ class Dashboard extends React.Component {
                                                                 tweet.favorited? 'favorite' : 'favorite_border'
                                                             }
                                                         </i>
-                                                        
+
                                                         <p className='count'>{tweet.favorite_count}</p>
                                                     </div>
                                                     <CheckboxModal tweetId = {tweet.id_str}/>
