@@ -1,13 +1,12 @@
 import React from 'react';
+import axios from 'axios';
 
-import cookieParser from './metadata/utils/cookieParser';
+import ErrorPage from './components/ErrorPage/index';
 
-const cookieObj = cookieParser();
+const token = localStorage.getItem('token');
+const email = localStorage.getItem('email');
 
-const isAuthenticated = cookieObj.hasOwnProperty('Authorization') && cookieObj.Authorization.length > 0;
-const userEmail = cookieObj.hasOwnProperty('user')? cookieObj.user : '';
-const token = cookieObj.hasOwnProperty('Authorization') ? cookieObj.Authorization : '';
-
+const isAuthenticated = token && token.length;
 
 export const StoreContext = React.createContext('default');
 
@@ -16,8 +15,9 @@ class Store extends React.Component {
         super(props);
         this.state = {
             isAuthenticated:isAuthenticated,
-            email: userEmail,
+            email: email,
             token: token,
+            errMsg: ''
         }
     }
 
@@ -36,7 +36,10 @@ class Store extends React.Component {
                     updateStore: this.updateStore
                 }}
             >
-                {this.props.children}
+                {
+                    this.state.errMsg ? <ErrorPage /> : this.props.children 
+                
+                }
              </StoreContext.Provider>
         )
     }

@@ -29,13 +29,13 @@
     margin: auto;
     height: 170px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-    background-color: #15202a;
+    background-color: white;
     margin-bottom: 0.1rem;
   }
 
   .tweet-body:hover {
-    background-color: #11171d;
-    border: #ffffff;
+    background-color: #F5F8FA;
+    border: #E6ECF0;
   }
 
   .picture {
@@ -58,7 +58,7 @@
     font-stretch: normal;
     line-height: normal;
     letter-spacing: -0.6px;
-    color: #ffffff;
+    color:rgb(20, 23, 26);
   }
 
   .handle {
@@ -70,7 +70,7 @@
     font-style: normal;
     font-stretch: normal;
     letter-spacing: -0.6px;
-    color: #75797d;
+    color: rgb(101, 119, 134);
   }
 
   .tweet {
@@ -78,12 +78,12 @@
     margin-top: 7px;
     font-family: HelveticaNeue;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     font-style: normal;
     font-stretch: normal;
     line-height: normal;
     letter-spacing: -0.6px;
-    color: #ffffff;
+    color:rgb(20, 23, 26);
     text-align: left;
   }
 .api-response .card {

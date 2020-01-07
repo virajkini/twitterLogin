@@ -21,18 +21,20 @@ class SignIn extends React.Component {
         if (verifier && oauth_token) {
             const apiUrl = apiBaseUrl + `/api/v1/access-token/?oauth_token=${oauth_token}&oauth_verifier=${verifier}`;
             const res = await axios.get(apiUrl);
+            console.log(res);
 
             const token = (res && res.data && res.data.token) ? res.data.token : '';
             const user = (res && res.data && res.data.user) ? res.data.user : '';
-
-            document.cookie = `Authorization=${token}`;
-            document.cookie =  `email=${user.email}`;
+            const UID = (res && res.data && res.data.twitter_user_id) ? res.data.twitter_user_id : '';
+            
+            localStorage.setItem('token',token);
+            localStorage.setItem('email',user.email);
+            localStorage.setItem('UID', UID);
 
             this.context.updateStore('email', user.email);
+            this.context.updateStore('UID', UID);
             this.context.updateStore('token', token);
             this.context.updateStore('isAuthenticated', true);
-
-
         }
     }
 
