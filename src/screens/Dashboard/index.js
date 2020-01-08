@@ -22,6 +22,7 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount = async () => {
+        axios.defaults.headers.common['Authorization'] = `Token ${this.context.token}`;
         this.fetchTimelineData()
         setInterval(()=>{ this.fetchTimelineData() }, 80 * 1000 )
     }
@@ -29,11 +30,7 @@ class Dashboard extends React.Component {
     fetchTimelineData = async() => {
         const apiUrl = apiBaseUrl + '/api/v1/user-timeline/';
         try {
-            const res = await axios.get(apiUrl ,{
-                headers: {
-                    'Authorization': `Token ${this.context.token}`,
-                }
-            });
+            const res = await axios.get(apiUrl);
     
             if (!res.data.errors) {
                 this.setState({
@@ -93,25 +90,21 @@ class Dashboard extends React.Component {
 
     favoritesAction = async(id, key, type) => {
 
-        // try {
-        //     const res = await axios.post(
-        //         `https://cors-anywhere.herokuapp.com/${apiUrl}`,{},
-        //         {
-        //             headers: {
-        //                 'Authorization': `Token ${this.context.token}`,
-        //             }
-        //         }
-        //     );
+        const payload = {
+            tweet_id : id, 
+        }; 
 
+        try {
+            const res = await axios.post(`https://tfeed.herokuapp.com/api/v1/like-tweet/`,payload);
+                
+            const tempData = [...this.state.data];
 
-        //     const tempData = [...this.state.data];
+            tempData[key] = res.data;
 
-        //     tempData[key] = res.data;
-
-        //     this.setState({data: tempData})
-        // } catch (err) {
-        //     alert('Something went wrong')
-        // }
+            this.setState({data: tempData})
+        } catch (err) {
+            alert('Something went wrong')
+        }
     }
 
 
