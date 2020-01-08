@@ -65,37 +65,13 @@ class Dashboard extends React.Component {
     }
     retweetAction = async(id, key, type) => {
 
-        // try {
-        //     const res = await axios.post(
-        //         `https://cors-anywhere.herokuapp.com/${apiUrl}`,{},
-        //         {
-        //             headers: {
-        //                 'Authorization': `Token ${this.context.token}`,
-        //             }
-        //         }
-        //     );
-
-        //     const updatedTweet = await this.fetchTweet(id);
-
-        //     const tempData = [...this.state.data];
-
-        //     tempData[key] = updatedTweet;
-
-        //     this.setState({data: tempData})
-        // } catch (err) {
-        //     alert('Something went wrong')
-        // }
-    }
-
-
-    favoritesAction = async(id, key, type) => {
-
+        const apiUrl = apiBaseUrl + '/api/v1/retweet/';
         const payload = {
             tweet_id : id, 
         }; 
 
         try {
-            const res = await axios.post(`https://tfeed.herokuapp.com/api/v1/like-tweet/`,payload);
+            const res = await axios.post(apiUrl,payload);
                 
             const tempData = [...this.state.data];
 
@@ -103,7 +79,30 @@ class Dashboard extends React.Component {
 
             this.setState({data: tempData})
         } catch (err) {
-            alert('Something went wrong')
+            const errMsg = err.message ? err.message : 'Something went wrong';
+            this.context.updateStore('errMsg', errMsg);
+        }
+    }
+
+
+    favoritesAction = async(id, key, type) => {
+
+        const apiUrl = apiBaseUrl + '/api/v1/like-tweet/';
+        const payload = {
+            tweet_id : id, 
+        }; 
+
+        try {
+            const res = await axios.post(apiUrl,payload);
+                
+            const tempData = [...this.state.data];
+
+            tempData[key] = res.data;
+
+            this.setState({data: tempData})
+        } catch (err) {
+            const errMsg = err.message ? err.message : 'Something went wrong';
+            this.context.updateStore('errMsg', errMsg);
         }
     }
 
