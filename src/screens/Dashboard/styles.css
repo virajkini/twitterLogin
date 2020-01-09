@@ -116,6 +116,10 @@
     max-width: 12px;
 } 
 
+.tw-buttons .disable {
+    pointer-events: none;
+}
+
 .tw-buttons .count {
     color: rgb(136, 153, 166);
     margin: 0;

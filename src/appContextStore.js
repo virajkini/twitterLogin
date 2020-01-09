@@ -5,7 +5,7 @@ import ErrorPage from './components/ErrorPage/index';
 
 const token = localStorage.getItem('token');
 const email = localStorage.getItem('email');
-
+const UID = localStorage.getItem('UID');
 const isAuthenticated = token && token.length;
 
 export const StoreContext = React.createContext('default');
@@ -17,6 +17,7 @@ class Store extends React.Component {
             isAuthenticated:isAuthenticated,
             email: email,
             token: token,
+            UID, UID,
             errMsg: ''
         }
     }

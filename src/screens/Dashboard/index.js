@@ -44,26 +44,7 @@ class Dashboard extends React.Component {
        
     }
 
-    fetchTweet = async (id) => {
-
-        // try {
-        //     const res = await axios.get(
-        //         `https://cors-anywhere.herokuapp.com/${apiUrl}`,{
-        //             headers: {
-        //                 'Authorization': `Token ${this.context.token}`,
-        //             }
-        //         });
-
-        //     return (res.data);
-
-        // } catch (err) {
-        //     alert('Something went wrong')
-
-        //     return '';
-        // }
-
-    }
-    retweetAction = async(id, key, type) => {
+    retweetAction = async(id, key) => {
 
         const apiUrl = apiBaseUrl + '/api/v1/retweet/';
         const payload = {
@@ -85,7 +66,7 @@ class Dashboard extends React.Component {
     }
 
 
-    favoritesAction = async(id, key, type) => {
+    favoritesAction = async(id, key) => {
 
         const apiUrl = apiBaseUrl + '/api/v1/like-tweet/';
         const payload = {
@@ -127,11 +108,8 @@ class Dashboard extends React.Component {
                                             <div><img className='img' src={Comment} alt='comment' /></div>
                                             <div style= {{display: 'flex', alignItems: 'center'}}>
                                             <i
-                                                className='material-icons icon'
-                                                onClick = {()=> {
-                                                        const type = tweet.retweeted ? 'unretweet' : 'retweet'
-                                                        this.retweetAction(tweet.id_str, key, type);
-                                                }}
+                                                className={"material-icons icon " + (tweet.retweeted? 'disable': '')}
+                                                onClick = {()=> { this.retweetAction(tweet.id_str, key); }}
                                             >
                                                 {
                                                     tweet.retweeted ? 'repeat_one' : 'repeated'
@@ -142,11 +120,8 @@ class Dashboard extends React.Component {
                                             <div style= {{display: 'flex', alignItems: 'center'}}>
 
                                                 <i
-                                                    className={"material-icons icon " + (tweet.favorited? 'red': '')}
-                                                    onClick = {()=> {
-                                                        const type = tweet.favorited ? 'destroy' : 'create'
-                                                        this.favoritesAction(tweet.id_str, key, type);
-                                                }}
+                                                    className={"material-icons icon " + (tweet.favorited? 'red disable': '')}
+                                                    onClick = {()=> { this.favoritesAction(tweet.id_str, key); }}
                                                 >
                                                     {
                                                         tweet.favorited? 'favorite' : 'favorite_border'

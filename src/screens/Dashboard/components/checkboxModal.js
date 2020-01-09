@@ -1,6 +1,7 @@
 import React, { userContext, useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Button, Form, Modal} from 'react-bootstrap';
+import {  toast } from 'react-toastify';
 
 import Send from '../../../resources/images/send.svg';
 import { StoreContext } from '../../../appContextStore';
@@ -25,11 +26,12 @@ const CheckboxModal = (props) => {
     const fetchUserOptions = async() => {
 
         try {
-            const res = await axios.get( apiBaseUrl + `/api/v1/tweetoptions/?user_id=${context.user_id}&tweet_id=${props.tweetId}`);
+            const res = await axios.get( apiBaseUrl + `/api/v1/tweetoptions/?user_id=${context.UID}&tweet_id=${props.tweetId}`);
             if (res.data.length && res.data[0].option && res.data[0].pk ) {
                 setOption(res.data[0].option);
                 setPk(res.data[0].pk);
             }
+
 
         } catch (err) {
             console.log(err)
@@ -41,7 +43,7 @@ const CheckboxModal = (props) => {
     const onSave = async() => {
 
         let payload = {
-            user_id: context.user_id,
+            user_id: context.UID,
             option: option,
             tweet_id: props.tweetId
         };
@@ -60,6 +62,10 @@ const CheckboxModal = (props) => {
 
 
             setShow(false);
+            toast.success("Options Saved Successfully !", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+            
 
         } catch (err) {
             alert('Something went wrong')

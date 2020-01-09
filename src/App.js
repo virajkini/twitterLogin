@@ -6,11 +6,14 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import { ToastContainer } from 'react-toastify';
+
 import { StoreContext } from './appContextStore';
 
 import Login from './screens/Login/index';
 import Dashboard from './screens/Dashboard/index';
 
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 function App() {
@@ -40,6 +43,7 @@ function App() {
           </StoreContext.Consumer>
 
       </Router>
+      <ToastContainer autoClose = {2000} />
     </div>
   );
 }
